@@ -8,8 +8,6 @@
 # This file is part of Project Concepts.
 # Distributed under terms of the MIT license.
 
-import torch
-import random
 import functools
 
 import jacinle.io as io
@@ -18,8 +16,6 @@ from jacinle.utils.container import GView
 from jacinle.config.environ_v2 import configs, set_configs
 from left.models.model import LeftModel
 from left.domain import make_domain
-from concepts.dsl.dsl_types import Variable
-from concepts.dsl.tensor_value import TensorValue
 
 logger = get_logger(__file__)
 
@@ -127,7 +123,7 @@ class Model(LeftModel):
         from left.domain import read_concepts_v2
         _, arity_2, arity_3 = read_concepts_v2(domain)
         
-        from concepts.benchmark.humanmotion.humanmotion_constants import attribute_concepts_mapping
+        from concepts.benchmark.babel_qa.humanmotion_constants import attribute_concepts_mapping
         arity_1 = attribute_concepts_mapping['Motion'] + attribute_concepts_mapping['Part'] + attribute_concepts_mapping['Direction']
 
         return arity_1, arity_2, arity_3

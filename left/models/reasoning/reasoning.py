@@ -91,7 +91,7 @@ class LeftGrounding(VisualConceptInferenceCache):
     def compute_description(self, concept_cat: str, attribute: str):
         # TODO(Joy Hsu @ 2023/03/27): note that this only works for the HumanMotionQA dataset.
         if concept_cat == 'attribute':
-            from concepts.benchmark.humanmotion.humanmotion_constants import attribute_concepts_mapping
+            from concepts.benchmark.babel_qa.humanmotion_constants import attribute_concepts_mapping
             this_attribute_concepts = attribute_concepts_mapping[attribute]
 
             output_vocab = self.embedding_registry.output_vocab.idx2word

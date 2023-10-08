@@ -8,8 +8,6 @@
 # This file is part of Project Concepts.
 # Distributed under terms of the MIT license.
 
-import torch
-import random
 import functools
 
 import jacinle.io as io

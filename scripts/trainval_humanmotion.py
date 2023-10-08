@@ -215,7 +215,7 @@ def main():
     logger.critical('Building the data loader.')
     
     def build_human_motion_dataset(data_dir, data_split_file, split, data_source, no_gt_segments=False, filter_supervision=False):
-        from concepts.benchmark.humanmotion.dataset import NSTrajDataset, MotionClassificationDataset
+        from concepts.benchmark.babel_qa.dataset import NSTrajDataset
         dataset = NSTrajDataset(data_dir, data_split_file, split, data_source, no_gt_segments, filter_supervision)
         return dataset
 
