@@ -25,7 +25,7 @@ Compile CUDA layers for [PointNet++](http://arxiv.org/abs/1706.02413).
   python setup.py install
 ```
 
-**Step 3**: Train. Here, `$scannet` is the path to `keep_all_points_with_global_scan_alignment.pkl`, `$scannet_split_pre_fix` is the path prefix to `scannetv2_train.txt` and `scannetv2_val.txt`, `$referit` is the path to `sr3d_train.csv`. You can download the files for `$gt_idx_to_class` (which is used for classification supervision, as in NS3D) and `$train`, `$test` from this [link].
+**Step 3**: Train. Here, `$scannet` is the path to `keep_all_points_with_global_scan_alignment.pkl`, `$scannet_split_pre_fix` is the path prefix to `scannetv2_train.txt` and `scannetv2_val.txt`, `$referit` is the path to `sr3d_train.csv`. You can download the files for `$gt_idx_to_class` (which is used for classification supervision, as in NS3D) and `$train`, `$test` from this download [link](https://downloads.cs.stanford.edu/viscam/LEFT/ReferIt3D.zip).
 
 ```bash
 jac-run scripts/trainval-referit3d.py --desc experiments/desc_neuro_codex_referit3d.py \
@@ -35,7 +35,7 @@ jac-run scripts/trainval-referit3d.py --desc experiments/desc_neuro_codex_referi
 
 ```
 
-**Step 4**: Evaluate. You can find our trained checkpoint for `$load_path` from this [link].
+**Step 4**: Evaluate. You can find our trained checkpoint for `$load_path` from this download [link](https://downloads.cs.stanford.edu/viscam/LEFT/ReferIt3D.zip).
 
 ```bash
 jac-run scripts/trainval-referit3d.py --desc experiments/desc_neuro_codex_referit3d.py \
