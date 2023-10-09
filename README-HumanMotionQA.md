@@ -5,7 +5,7 @@
 **Step 1**: Prepare the dataset. Our dataset download process follows the [HumanMotionQA benchmark](https://github.com/markendo/HumanMotionQA/tree/master/BABEL-QA).
 
 
-**Step 2**: Train. Here, `$datadir` is the path to `BABEL-QA`, `$data_split_file` is the path to `split_question_ids.json`. You can download the files for `$output_vocab_path` and `$train`, `$test` from this [link].
+**Step 2**: Train. Here, `$datadir` is the path to `BABEL-QA`, `$data_split_file` is the path to `split_question_ids.json`. You can download the files for `$output_vocab_path` and `$train`, `$test` from this download [link](https://downloads.cs.stanford.edu/viscam/LEFT/HumanMotionQA.zip).
 
 ```bash
 jac-run scripts/trainval-humanmotion.py --desc experiments/desc_neuro_codex_humanmotion.py \
@@ -15,7 +15,7 @@ jac-run scripts/trainval-humanmotion.py --desc experiments/desc_neuro_codex_huma
 
 ```
 
-**Step 3**: Evaluate. You can find our trained checkpoint for `$load_path` from this [link].
+**Step 3**: Evaluate. You can find our trained checkpoint for `$load_path` from this download [link](https://downloads.cs.stanford.edu/viscam/LEFT/HumanMotionQA.zip).
 
 ```bash
 jac-run scripts/trainval-humanmotion.py --desc experiments/desc_neuro_codex_humanmotion.py \
