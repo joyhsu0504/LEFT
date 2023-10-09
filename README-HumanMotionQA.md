@@ -1,116 +1,25 @@
 # Left
 
-## CLEVR Dataset (Original)
+## HumanMotionQA Dataset
 
-**Step 1**: prepare the dataset. Download from [here](https://cs.stanford.edu/people/jcjohns/clevr/). We use the setup from Mao et al. 2019. See the original instruction here: [GitHub Repo](https://github.com/vacancy/NSCL-PyTorch-Release).
-
-To replicate the experiments, you need to prepare your dataset as the following.
-
-```
-clevr
-├── train
-│   ├── images
-│   ├── questions.json
-│   ├── scenes-raw.json
-│   └── scenes.json
-│   └── vocab.json
-└── val
-    ├── images
-    ├── questions.json
-    ├── scenes-raw.json
-    └── scenes.json
-    └── vocab.json
-```
-
-You can download all images, and put them under the `images/` folders from the [official website](https://cs.stanford.edu/people/jcjohns/clevr/) of the CLEVR dataset.
-The `questions.json` and `scenes-raw.json` could also been found on the website.
-
-Next, you need to add object detection results for scenes. Here, we use the tools provided by [ns-vqa](https://github.com/kexinyi/ns-vqa).
-In short, a pre-trained Mask-RCNN is used to detect all objects. We provide the json files with detected object bounding boxes at [clevr/train/scenes.json](http://nscl.csail.mit.edu/data/code-data/clevr/train/scenes.json.zip) and [clevr/val/scenes.json](http://nscl.csail.mit.edu/data/code-data/clevr/val/scenes.json.zip).
-
-The `vocab.json` could be downloaded at [this URL](http://nscl.csail.mit.edu/data/code-data/clevr/vocab.json).
+**Step 1**: Prepare the dataset. Our dataset download process follows the [HumanMotionQA benchmark](https://github.com/markendo/HumanMotionQA/tree/master/BABEL-QA).
 
 
-**Step 2**: generate groundtruth programs for CLEVR/train and CLEVR/val
+**Step 2**: Train. Here, `$datadir` is the path to `BABEL-QA`, `$data_split_file` is the path to `split_question_ids.json`. You can download the files for `$output_vocab_path` and `$train`, `$test` from this [link].
 
 ```bash
-jac-run scripts/gen-clevr-gt-program.py --input data/clevr/train/questions.json --output data/clevr/train/questions-ncprogram-gt.pkl
-jac-run scripts/gen-clevr-gt-program.py --input data/clevr/val/questions.json --output data/clevr/val/questions-ncprogram-gt.pkl
+jac-run scripts/trainval-humanmotion.py --desc experiments/desc_neuro_codex_humanmotion.py \
+  --datadir $datadir --data-split-file $data_split_file --output-vocab-path $output_vocab_path --datasource humanml3d --no_gt_segments --temporal_operator conv1d \
+  --parsed-train-path $train --parsed-test-path $test \
+  --validation-interval 1 --save-interval 1 --lr 0.0005 --epochs 5000 --batch-size 4
+
 ```
 
-**Step 3**: Training (10% Data Efficiency)
+**Step 3**: Evaluate. You can find our trained checkpoint for `$load_path` from this [link].
 
 ```bash
-jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
-  --data-dir data/clevr/train \
-  --data-parses data/clevr/train/questions-ncprogram-gt.pkl data/clevr/val/questions-ncprogram-gt.pkl \
-  --curriculum all --expr original --validation-interval 5 --config model.learned_belong_fusion=plus --data-tvsplit 0.95 --data-retain 0.1
+jac-run scripts/trainval-humanmotion.py --desc experiments/desc_neuro_codex_humanmotion.py \
+  --datadir $datadir --data-split-file $data_split_file --output-vocab-path $output_vocab_path --datasource humanml3d --no_gt_segments --temporal_operator conv1d \
+  --parsed-train-path $train --parsed-test-path $test \
+  --batch-size 4 --load $load_path --evaluate
 ```
-
-**Step 4**: Training (100% Data Efficiency)
-
-```bash
-jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
-  --data-dir data/clevr/train \
-  --data-parses data/clevr/train/questions-ncprogram-gt.pkl data/clevr/val/questions-ncprogram-gt.pkl \
-  --curriculum all --expr original --validation-interval 5 --config model.learned_belong_fusion=plus --data-tvsplit 0.95
-```
-
-**Step 5**: Evaluation
-
-```bash
-jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
-  --data-dir data/clevr/train \
-  --data-parses data/clevr/train/questions-ncprogram-gt.pkl data/clevr/val/questions-ncprogram-gt.pkl \
-  --curriculum all --expr original --validation-interval 5 --config model.learned_belong_fusion=plus --data-tvsplit 0.95 \
-  --load <TRAINED_CHECKPOINT_FILE> \
-  --validation-data-dir data/clevr/val --evaluate
-```
-
-## CLEVR-Humans Dataset
-
-```bash
-jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
-  --data-dir data/clevr-humans/train --data-parses promptv4-clevr-humans-trial3-round3.decomposed-full.pkl \
-  --curriculum none --expr human --data-tvsplit 0.95 --validation-interval 5 --config model.learned_belong_fusion=plus \
-  --load <TRAINED_CHECKPOINT_FILE>
-```
-
-Here <TRAINED_CHECKPOINT_FILE> should be replaced by the trained checkpoint file on the original CLEVR.
-
-## CLEVR-Refs (Evaluation Only)
-
-```bash
-scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
-  --data-dir data/clevr-mini --data-parses questions-ncprogram-gt-canonize-same.json transfer-questions-ncprogram.pkl \
-  --expr transfer --config model.learned_belong_fusion=plus \
-  --load <TRAINED_CHECKPOINT_FILE> \
-  --evaluate-custom ref --data-questions-json refexps-20230513.json
-```
-
-Note that here we need to use CLEVR-Mini dataset from [NS-VQA](https://github.com/kexinyi/ns-vqa), because we need to have the groundtruth set of objects.
-You can also generate your own dataset using the code `scripts/gen-clevr-ref.py`
-
-## CLEVR-PUZZLE (Evaluation Only)
-
-```bash
-scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
-  --data-dir data/clevr-mini --data-parses questions-ncprogram-gt-canonize-same.json transfer-questions-ncprogram.pkl \
-  --expr transfer --config model.learned_belong_fusion=plus \
-  --load <TRAINED_CHECKPOINT_FILE> \
-  --evaluate-custom puzzle --data-questions-json puzzle-20230513.json
-```
-
-You can also generate your own dataset using the code `scripts/gen-clevr-puzzle.py`
-
-## CLEVR-RPM (Evaluation Only)
-
-```bash
-scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
-  --data-dir data/clevr-mini --data-parses questions-ncprogram-gt-canonize-same.json transfer-questions-ncprogram.pkl \
-  --expr transfer --config model.learned_belong_fusion=plus \
-  --load <TRAINED_CHECKPOINT_FILE> \
-  --evaluate-custom rpm --data-questions-json rpm-20230513.json
-```
-
-You can also generate your own dataset using the code `scripts/gen-clevr-rpm.py`
