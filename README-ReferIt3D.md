@@ -35,7 +35,7 @@ jac-run scripts/trainval-referit3d.py --desc experiments/desc_neuro_codex_referi
 
 ```
 
-**Step 4**: Evaluate. You can find our trained checkpoints from this [link].
+**Step 4**: Evaluate. You can find our trained checkpoint for `$load_path` from this [link].
 
 ```bash
 jac-run scripts/trainval-referit3d.py --desc experiments/desc_neuro_codex_referit3d.py \
