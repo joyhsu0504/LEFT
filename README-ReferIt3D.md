@@ -1,116 +1,46 @@
 # Left
 
-## CLEVR Dataset (Original)
+## ReferIt3D Dataset (SR3D)
 
-**Step 1**: prepare the dataset. Download from [here](https://cs.stanford.edu/people/jcjohns/clevr/). We use the setup from Mao et al. 2019. See the original instruction here: [GitHub Repo](https://github.com/vacancy/NSCL-PyTorch-Release).
+**Step 1**: Prepare the dataset. Our dataset download process follows the [ReferIt3D benchmark](https://github.com/referit3d/referit3d).
 
-To replicate the experiments, you need to prepare your dataset as the following.
+Specifically, you will need to
+- (1) Download `sr3d_train.csv` and `sr3d_test.csv` from this [link](https://drive.google.com/drive/folders/1DS4uQq7fCmbJHeE-rEbO8G1-XatGEqNV)
+- (2) Download scans from ScanNet and process them according to this [link](https://github.com/referit3d/referit3d/blob/eccv/referit3d/data/scannet/README.md). This should result in a `keep_all_points_with_global_scan_alignment.pkl` file.
 
-```
-clevr
-├── train
-│   ├── images
-│   ├── questions.json
-│   ├── scenes-raw.json
-│   └── scenes.json
-│   └── vocab.json
-└── val
-    ├── images
-    ├── questions.json
-    ├── scenes-raw.json
-    └── scenes.json
-    └── vocab.json
+
+**Step 2**: Install the necessary packages.
+
+
+Install the referit3d python package from [ReferIt3D](https://github.com/referit3d/referit3d).
+```bash
+  git clone https://github.com/referit3d/referit3d
+  cd referit3d
+  pip install -e .
 ```
 
-You can download all images, and put them under the `images/` folders from the [official website](https://cs.stanford.edu/people/jcjohns/clevr/) of the CLEVR dataset.
-The `questions.json` and `scenes-raw.json` could also been found on the website.
+Compile CUDA layers for [PointNet++](http://arxiv.org/abs/1706.02413).
+```bash
+  cd left/nn/point_net_pp/pointnet2
+  python setup.py install
+```
 
-Next, you need to add object detection results for scenes. Here, we use the tools provided by [ns-vqa](https://github.com/kexinyi/ns-vqa).
-In short, a pre-trained Mask-RCNN is used to detect all objects. We provide the json files with detected object bounding boxes at [clevr/train/scenes.json](http://nscl.csail.mit.edu/data/code-data/clevr/train/scenes.json.zip) and [clevr/val/scenes.json](http://nscl.csail.mit.edu/data/code-data/clevr/val/scenes.json.zip).
-
-The `vocab.json` could be downloaded at [this URL](http://nscl.csail.mit.edu/data/code-data/clevr/vocab.json).
-
-
-**Step 2**: generate groundtruth programs for CLEVR/train and CLEVR/val
+**Step 3**: Train. Here, `$scannet` is the path to `keep_all_points_with_global_scan_alignment.pkl`, `$scannet_split_pre_fix` is the path prefix to `scannetv2_train.txt` and `scannetv2_val.txt`, `$referit` is the path to `sr3d_train.csv`. You can download the files for `$gt_idx_to_class` (which is used for classification supervision, as in NS3D) and `$train`, `$test` from this [link].
 
 ```bash
-jac-run scripts/gen-clevr-gt-program.py --input data/clevr/train/questions.json --output data/clevr/train/questions-ncprogram-gt.pkl
-jac-run scripts/gen-clevr-gt-program.py --input data/clevr/val/questions.json --output data/clevr/val/questions-ncprogram-gt.pkl
+jac-run scripts/trainval-referit3d.py --desc experiments/desc_neuro_codex_referit3d.py \
+  --scannet-file $scannet --scannet-split-pre-fix $scannet_split_pre_fix --referit3D-file $referit --gt-idx-to-class $gt_idx_to_class \
+  --parsed-train-path $train --parsed-test-path $test \
+  --validation-interval 10 --save-interval 10 --lr 0.0001 --epochs 5000
+
 ```
 
-**Step 3**: Training (10% Data Efficiency)
+**Step 4**: Evaluate. You can find our trained checkpoints from this [link].
 
 ```bash
-jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
-  --data-dir data/clevr/train \
-  --data-parses data/clevr/train/questions-ncprogram-gt.pkl data/clevr/val/questions-ncprogram-gt.pkl \
-  --curriculum all --expr original --validation-interval 5 --config model.learned_belong_fusion=plus --data-tvsplit 0.95 --data-retain 0.1
+jac-run scripts/trainval-referit3d.py --desc experiments/desc_neuro_codex_referit3d.py \
+  --scannet-file $scannet --scannet-split-pre-fix $scannet_split_pre_fix --referit3D-file $referit --gt-idx-to-class $gt_idx_to_class \
+  --parsed-train-path $train --parsed-test-path $test \
+  --load $load_path --evaluate
 ```
 
-**Step 4**: Training (100% Data Efficiency)
-
-```bash
-jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
-  --data-dir data/clevr/train \
-  --data-parses data/clevr/train/questions-ncprogram-gt.pkl data/clevr/val/questions-ncprogram-gt.pkl \
-  --curriculum all --expr original --validation-interval 5 --config model.learned_belong_fusion=plus --data-tvsplit 0.95
-```
-
-**Step 5**: Evaluation
-
-```bash
-jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
-  --data-dir data/clevr/train \
-  --data-parses data/clevr/train/questions-ncprogram-gt.pkl data/clevr/val/questions-ncprogram-gt.pkl \
-  --curriculum all --expr original --validation-interval 5 --config model.learned_belong_fusion=plus --data-tvsplit 0.95 \
-  --load <TRAINED_CHECKPOINT_FILE> \
-  --validation-data-dir data/clevr/val --evaluate
-```
-
-## CLEVR-Humans Dataset
-
-```bash
-jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
-  --data-dir data/clevr-humans/train --data-parses promptv4-clevr-humans-trial3-round3.decomposed-full.pkl \
-  --curriculum none --expr human --data-tvsplit 0.95 --validation-interval 5 --config model.learned_belong_fusion=plus \
-  --load <TRAINED_CHECKPOINT_FILE>
-```
-
-Here <TRAINED_CHECKPOINT_FILE> should be replaced by the trained checkpoint file on the original CLEVR.
-
-## CLEVR-Refs (Evaluation Only)
-
-```bash
-scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
-  --data-dir data/clevr-mini --data-parses questions-ncprogram-gt-canonize-same.json transfer-questions-ncprogram.pkl \
-  --expr transfer --config model.learned_belong_fusion=plus \
-  --load <TRAINED_CHECKPOINT_FILE> \
-  --evaluate-custom ref --data-questions-json refexps-20230513.json
-```
-
-Note that here we need to use CLEVR-Mini dataset from [NS-VQA](https://github.com/kexinyi/ns-vqa), because we need to have the groundtruth set of objects.
-You can also generate your own dataset using the code `scripts/gen-clevr-ref.py`
-
-## CLEVR-PUZZLE (Evaluation Only)
-
-```bash
-scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
-  --data-dir data/clevr-mini --data-parses questions-ncprogram-gt-canonize-same.json transfer-questions-ncprogram.pkl \
-  --expr transfer --config model.learned_belong_fusion=plus \
-  --load <TRAINED_CHECKPOINT_FILE> \
-  --evaluate-custom puzzle --data-questions-json puzzle-20230513.json
-```
-
-You can also generate your own dataset using the code `scripts/gen-clevr-puzzle.py`
-
-## CLEVR-RPM (Evaluation Only)
-
-```bash
-scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
-  --data-dir data/clevr-mini --data-parses questions-ncprogram-gt-canonize-same.json transfer-questions-ncprogram.pkl \
-  --expr transfer --config model.learned_belong_fusion=plus \
-  --load <TRAINED_CHECKPOINT_FILE> \
-  --evaluate-custom rpm --data-questions-json rpm-20230513.json
-```
-
-You can also generate your own dataset using the code `scripts/gen-clevr-rpm.py`
