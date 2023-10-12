@@ -20,7 +20,7 @@ Run the following commands to install necessary dependencies.
 pip install git+https://github.com/concepts-ai/concepts
 ```
 
-## Train & eval
+## Train & evaluation
 Please see the individual READMEs. 
 
 ## Demo
