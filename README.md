@@ -15,6 +15,13 @@ In Conference on Neural Information Processing Systems (NeurIPS) 2023
 <br />
 
 ## Setup
+Run the following commands to install necessary dependencies.
 ```
 pip install git+https://github.com/concepts-ai/concepts
 ```
+
+## Train & eval
+Please see the individual READMEs. 
+
+## Demo
+Coming soon!
