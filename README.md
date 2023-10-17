@@ -4,7 +4,7 @@
 ![figure](figure.png)
 <br />
 <br />
-**What’s *Left*? Concept Grounding with Large Language Models**
+**What’s *Left*? Concept Grounding with Logic-Enhanced Foundation Models**
 <br />
 [Joy Hsu](http://web.stanford.edu/~joycj/)\*,
 [Jiayuan Mao](http://jiayuanm.com/)\*,
@@ -25,3 +25,7 @@ Please see the individual READMEs.
 
 ## Demo
 Coming soon!
+
+## Warning
+LEFT leverages a pre-trained large language model as its language interpreter, and hence, even though our prompts are general examples of first-order logic, we do not have direct control over the LLM's generation. The LLM may output harmful biase.
+
