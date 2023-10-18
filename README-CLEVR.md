@@ -2,7 +2,7 @@
 
 ## CLEVR Dataset (Original)
 
-**Step 1**: prepare the dataset. Download from [here](https://cs.stanford.edu/people/jcjohns/clevr/). We use the setup from Mao et al. 2019. See the original instruction here: [GitHub Repo](https://github.com/vacancy/NSCL-PyTorch-Release).
+**Step 1**: Prepare the dataset. Download from [here](https://cs.stanford.edu/people/jcjohns/clevr/). We use the setup from Mao et al. 2019. See the original instruction here: [GitHub Repo](https://github.com/vacancy/NSCL-PyTorch-Release).
 
 To replicate the experiments, you need to prepare your dataset as the following.
 
@@ -31,14 +31,14 @@ In short, a pre-trained Mask-RCNN is used to detect all objects. We provide the 
 The `vocab.json` could be downloaded at [this URL](http://nscl.csail.mit.edu/data/code-data/clevr/vocab.json).
 
 
-**Step 2**: generate groundtruth programs for CLEVR/train and CLEVR/val
+**Step 2**: Generate groundtruth programs for CLEVR/train and CLEVR/val.
 
 ```bash
 jac-run scripts/gen-clevr-gt-program.py --input data/clevr/train/questions.json --output data/clevr/train/questions-ncprogram-gt.pkl
 jac-run scripts/gen-clevr-gt-program.py --input data/clevr/val/questions.json --output data/clevr/val/questions-ncprogram-gt.pkl
 ```
 
-**Step 3**: Training (10% Data Efficiency)
+**Step 3**: Training (10% Data Efficiency).
 
 ```bash
 jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
@@ -47,7 +47,7 @@ jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_l
   --curriculum all --expr original --validation-interval 5 --config model.learned_belong_fusion=plus --data-tvsplit 0.95 --data-retain 0.1
 ```
 
-**Step 4**: Training (100% Data Efficiency)
+**Step 4**: Training (100% Data Efficiency).
 
 ```bash
 jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
@@ -56,7 +56,7 @@ jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_l
   --curriculum all --expr original --validation-interval 5 --config model.learned_belong_fusion=plus --data-tvsplit 0.95
 ```
 
-**Step 5**: Evaluation
+**Step 5**: Evaluation.
 
 ```bash
 jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
