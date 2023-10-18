@@ -53,12 +53,10 @@ parser.add_argument('--evaluate', action='store_true', help='evaluate the perfor
 
 # data related
 parser.add_argument('--no_gt_segments', action='store_true', help='dont use gt action segments')
-parser.add_argument('--temporal_operator', default='linear', choices=['linear', 'conv1d', 'shift'])
 parser.add_argument('--filter_supervision', action='store_true', help='add intermediate filter supervision (only when using gt segments)')
 parser.add_argument('--datadir', required=True, metavar='DIR', help='data directory')
 parser.add_argument('--data-split-file', type='checked_file', metavar='FILE', help='file that contains which questions are included in train, val, and test')
-parser.add_argument('--datasource', required=True, metavar='DIR', help='data directory')
-parser.add_argument('--output-vocab-path', required=True, metavar='FILE', help='path to output vocab')
+parser.add_argument('--vocab', required=True, metavar='FILE', help='path to vocab')
 parser.add_argument('--parsed-train-path', required=True, metavar='FILE', help='path to parsed train')
 parser.add_argument('--parsed-test-path', required=True, metavar='FILE', help='path to parsed test')
 
@@ -139,7 +137,7 @@ def main():
     
                 
     from concepts.benchmark.common.vocab import Vocab
-    output_vocab = Vocab.from_json(args.output_vocab_path)
+    output_vocab = Vocab.from_json(args.vocab)
             
     logger.critical('Building the model.')
     model = desc.make_model(args.parsed_train_path, args.parsed_test_path, output_vocab)
@@ -218,8 +216,8 @@ def main():
         dataset = BabelQADataset(data_dir, data_split_file, split, data_source, no_gt_segments, filter_supervision)
         return dataset
 
-    train_dataset = build_human_motion_dataset(args.datadir, args.data_split_file, 'train', args.datasource, no_gt_segments=args.no_gt_segments, filter_supervision=args.filter_supervision)
-    val_dataset = build_human_motion_dataset(args.datadir, args.data_split_file, 'val', args.datasource, no_gt_segments=args.no_gt_segments, filter_supervision=args.filter_supervision)
+    train_dataset = build_human_motion_dataset(args.datadir, args.data_split_file, 'train', 'humanml3d', no_gt_segments=args.no_gt_segments, filter_supervision=args.filter_supervision)
+    val_dataset = build_human_motion_dataset(args.datadir, args.data_split_file, 'val', 'humanml3d', no_gt_segments=args.no_gt_segments, filter_supervision=args.filter_supervision)
     
     train_dataloader = train_dataset.make_dataloader(args.batch_size, shuffle=True, drop_last=True, nr_workers=2)
     validation_dataloader = val_dataset.make_dataloader(args.batch_size, shuffle=False, drop_last=False, nr_workers=2)
