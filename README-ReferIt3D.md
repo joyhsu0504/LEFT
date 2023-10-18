@@ -29,18 +29,17 @@ Compile CUDA layers for [PointNet++](http://arxiv.org/abs/1706.02413).
 
 ```bash
 jac-run scripts/trainval-referit3d.py --desc experiments/desc_neuro_codex_referit3d.py \
-  --scannet-file $scannet --scannet-split-pre-fix $scannet_split_pre_fix --referit3D-file $referit --gt-idx-to-class $gt_idx_to_class \
+  --scannet-file $scannet --scannet-split-pre-fix $scannet_split_pre_fix --referit3d-file $referit3d --idx-to-class $idx_to_class \
   --parsed-train-path $train --parsed-test-path $test \
   --validation-interval 10 --save-interval 10 --lr 0.0001 --epochs 5000
-
 ```
-Here, `$scannet` is the path to `keep_all_points_with_global_scan_alignment.pkl`, `$scannet_split_pre_fix` is the path prefix to `scannetv2_train.txt` and `scannetv2_val.txt`, `$referit` is the path to `sr3d_train.csv`. You can download the files for `$gt_idx_to_class` (which is used for classification supervision, as in NS3D) and `$train`, `$test` from this download [link](https://downloads.cs.stanford.edu/viscam/LEFT/ReferIt3D.zip).
+Here, `$scannet` is the path to `keep_all_points_with_global_scan_alignment.pkl`, `$scannet_split_pre_fix` is the path prefix to `scannetv2_train.txt` and `scannetv2_val.txt`, `$referit3d` is the path to `sr3d_train.csv`. You can download the files for `$idx_to_class` (which is used for classification supervision, as in NS3D) and parsed `$train`, `$test` from this download [link](https://downloads.cs.stanford.edu/viscam/LEFT/ReferIt3D.zip).
 
 **Step 4**: Evaluate.
 
 ```bash
 jac-run scripts/trainval-referit3d.py --desc experiments/desc_neuro_codex_referit3d.py \
-  --scannet-file $scannet --scannet-split-pre-fix $scannet_split_pre_fix --referit3D-file $referit --gt-idx-to-class $gt_idx_to_class \
+  --scannet-file $scannet --scannet-split-pre-fix $scannet_split_pre_fix --referit3d-file $referit3d --idx-to-class $idx_to_class \
   --parsed-train-path $train --parsed-test-path $test \
   --load $load_path --evaluate
 ```

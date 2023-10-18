@@ -8,19 +8,18 @@
 **Step 2**: Train.
 ```bash
 jac-run scripts/trainval-humanmotion.py --desc experiments/desc_neuro_codex_humanmotion.py \
-  --datadir $datadir --data-split-file $data_split_file --output-vocab-path $output_vocab_path --datasource humanml3d --no_gt_segments --temporal_operator conv1d \
+  --datadir $datadir --data-split-file $data_split_file --vocab $vocab  --no_gt_segments \
   --parsed-train-path $train --parsed-test-path $test \
   --validation-interval 1 --save-interval 1 --lr 0.0005 --epochs 5000 --batch-size 4
-
 ```
-Here, `$datadir` is the path to `BABEL-QA`, `$data_split_file` is the path to `split_question_ids.json`. You can download the files for `$output_vocab_path` and `$train`, `$test` from this download [link](https://downloads.cs.stanford.edu/viscam/LEFT/HumanMotionQA.zip).
+Here, `$datadir` is the path to `BABEL-QA`, `$data_split_file` is the path to `split_question_ids.json`. You can download the files for `$vocab` and parsed `$train`, `$test` from this download [link](https://downloads.cs.stanford.edu/viscam/LEFT/HumanMotionQA.zip).
 
 
 **Step 3**: Evaluate.
 
 ```bash
 jac-run scripts/trainval-humanmotion.py --desc experiments/desc_neuro_codex_humanmotion.py \
-  --datadir $datadir --data-split-file $data_split_file --output-vocab-path $output_vocab_path --datasource humanml3d --no_gt_segments --temporal_operator conv1d \
+  --datadir $datadir --data-split-file $data_split_file --vocab $vocab --no_gt_segments \
   --parsed-train-path $train --parsed-test-path $test \
   --batch-size 4 --load $load_path --evaluate
 ```
