@@ -23,7 +23,7 @@ Install [Jacinle](https://github.com/vacancy/Jacinle).
   export PATH=<path_to_jacinle>/bin:$PATH
 ```
 
-Install Concepts
+Install [Concepts](https://github.com/concepts-ai/concepts).
 ```
   pip install git+https://github.com/concepts-ai/concepts
 ```
