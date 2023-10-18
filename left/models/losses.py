@@ -117,7 +117,6 @@ class AttrClsLoss(MultitaskLossBase):
                 accs.append(this_acc)
                 gt_concepts_to_accs[gt_class].append(this_acc)
 
-                '''this_loss = torch.nn.CrossEntropyLoss()(pred_scores_for_object, torch.tensor(gt_class_index).cuda())'''
                 this_loss = self._sigmoid_xent_loss(pred_scores_for_object, torch.tensor(gt_class_index).cuda())
                 losses.append(this_loss)
 
