@@ -101,16 +101,11 @@ class LeftGrounding(VisualConceptInferenceCache):
                 word = output_vocab[idx].replace(' ', '_') + '_Action'
                 if word in this_attribute_concepts:
                     scores = self.compute_similarity(concept_cat, word)  # [num_segments]
-                    '''try:
-                        scores = self.compute_similarity(concept_cat, word)  # [num_segments]
-                    except:
-                        scores = torch.zeros(attribute_features.size(0), device=attribute_features.device) - 100'''
                 else:
                     scores = torch.zeros(attribute_features.size(0), device=attribute_features.device) - 100
                 all_scores.append(scores)
             all_scores = torch.stack(all_scores, dim=1)  # [num_segments, output_vocab_len]
 
-            # all_scores = self.raw_features['output_vocab']
             return all_scores
         # e.g., what's the color of the object? compute_description('attribute', 'color')
         embedding_mod = self.get_embedding_mod(concept_cat)
@@ -142,7 +137,6 @@ class NCDenseClipGrounding(VisualConceptInferenceCache):
         im_attn_map = self.denseclip(img, lang)
         im_attn_map = im_attn_map.permute(1, 2, 0)
         im_attn_map = im_attn_map.flatten()  # Flatten for softmax computation
-        # im_attn_map = torch.min(prev_map, im_attn_map)
         return im_attn_map
 
     def compute_action(self, pick_mask, place_mask, action_concept):
@@ -158,7 +152,6 @@ class NCDenseClipGrounding(VisualConceptInferenceCache):
 
             # Place
             pick_center = self.raw_features['p0']
-            # Check language goal & pick center & pad_w & pad_h
             place_out = self.goal_transport.ns_forward(img, place_mask.detach(), pick_center, action_concept, pad_w=0, pad_h=0, softmax=False)
             return pick_attention_scores, place_out  # [320, 160, 1], [1, 36, 320, 160]
         else:
