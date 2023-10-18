@@ -399,10 +399,9 @@ def validate_epoch(epoch, trainer, val_dataloader, meters, output_vocab):
                 utterance = feed_dict['question_text'][idx]
                 parsing = output_dict['parsing'][idx]
                 
+                tree = ''
                 if parsing:
                     tree = str(parsing)
-                else:
-                    tree = ''
                 
                 correctness = predictions[idx].cpu() == feed_dict['answer'][idx]
                 if 'concepts_to_accs' in output_dict:

@@ -122,4 +122,3 @@ class Model(LeftModel):
 
 def make_model(parsed_train_path, parsed_test_path, output_vocab):
     return Model(parsed_train_path, parsed_test_path, output_vocab)
-
