@@ -123,7 +123,7 @@ class Model(LeftModel):
         from left.domain import read_concepts_v2
         _, arity_2, arity_3 = read_concepts_v2(domain)
         
-        from concepts.benchmark.babel_qa.humanmotion_constants import attribute_concepts_mapping
+        from concepts.benchmark.vision_language.babel_qa.humanmotion_constants import attribute_concepts_mapping
         arity_1 = attribute_concepts_mapping['Motion'] + attribute_concepts_mapping['Part'] + attribute_concepts_mapping['Direction']
 
         return arity_1, arity_2, arity_3

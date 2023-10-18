@@ -199,7 +199,7 @@ class NCLinearConceptEmbedding(nn.Module):
         self.linear_input_dim = None
         self.linear_output_dim = 0  # Equal to the number of concepts.
         self.attribute_output_dim = None
-        self.register_module('linear', None)
+        self.add_module('linear', None)
 
     def extra_state_dict(self):
         return {'attributes': self.attributes.copy(), 'concepts': self.concepts.copy(), 'linear_input_dim': self.linear_input_dim, 'attribute_output_dim': self.attribute_output_dim}

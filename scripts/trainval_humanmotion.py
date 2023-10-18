@@ -10,7 +10,6 @@
 
 import time
 import os.path as osp
-from nltk.tokenize import word_tokenize
 
 import torch
 import torch.backends.cudnn as cudnn
@@ -215,8 +214,8 @@ def main():
     logger.critical('Building the data loader.')
     
     def build_human_motion_dataset(data_dir, data_split_file, split, data_source, no_gt_segments=False, filter_supervision=False):
-        from concepts.benchmark.babel_qa.dataset import NSTrajDataset
-        dataset = NSTrajDataset(data_dir, data_split_file, split, data_source, no_gt_segments, filter_supervision)
+        from concepts.benchmark.vision_language.babel_qa.dataset import BabelQADataset
+        dataset = BabelQADataset(data_dir, data_split_file, split, data_source, no_gt_segments, filter_supervision)
         return dataset
 
     train_dataset = build_human_motion_dataset(args.datadir, args.data_split_file, 'train', args.datasource, no_gt_segments=args.no_gt_segments, filter_supervision=args.filter_supervision)

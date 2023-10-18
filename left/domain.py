@@ -58,7 +58,8 @@ def create_domain_from_parsing(codes: Dict[str, List[str]]) -> FunctionDomain:
         for code in codes:
             try:
                 _ = parser.parse_expression(code)
-            except:  # noqa: E722
+            except Exception as e:  # noqa: E722
+                print(e)
                 # NB(Jiayuan Mao @ 2023/04/05): basically ignores all parsing errors.
                 continue
 

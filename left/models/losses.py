@@ -179,6 +179,7 @@ class QALoss(MultitaskLossBase):
                 if isinstance(gt_answer, bool):
                     this_loss = self._bce_loss(result.tensor, torch.tensor(gt_answer).float().to(result.tensor.device))
                     this_accuracy = bool(result.tensor.item() > 0) == gt_answer
+                    # print(f'compute loss pred={result.tensor.sigmoid().item()} gt={gt_answer} loss={this_loss.item()}')
                 else:
                     this_loss, this_accuracy = 10, False
             elif result_typename == 'int64':

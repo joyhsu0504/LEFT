@@ -12,7 +12,7 @@
 import torch.nn as nn
 import jactorch.nn as jacnn
 
-from typing import Optional, Tuple, List
+from typing import Any, Optional, Tuple, List, Dict
 
 from jacinle.config.environ_v2 import configs, def_configs_func
 from jacinle.logging import get_logger
@@ -148,9 +148,9 @@ class LeftModel(nn.Module):
                 for word in src:
                     tgt.init_concept(word, configs.model.sg_dims[arity])
             if len(self.attribute_concepts) > 0:
-                assert self.description_vocab_size is not None
-            for word in self.attribute_description_categories:
-                self.attribute_embedding.init_attribute(word, configs.model.sg_dims[1], self.description_vocab_size)
+                if self.description_vocab_size is not None:
+                    for word in self.attribute_description_categories:
+                        self.attribute_embedding.init_attribute(word, configs.model.sg_dims[1], self.description_vocab_size)
             for tgt in [self.attribute_embedding, self.relation_embedding, self.multi_relation_embedding]:
                 tgt.init_linear_layers()
         elif configs.model.concept_embedding == 'clip':
@@ -160,4 +160,37 @@ class LeftModel(nn.Module):
 
     def forward_sng(self, feed_dict):
         raise NotImplementedError()
+
+    def execute_program_from_parsing_string(self, question: str, raw_parsing: str, grounding, outputs: Dict[str, Any]):
+        parsing, program, execution, trace = None, None, None, None
+        with self.executor.with_grounding(grounding):
+            try:
+                try:
+                    parsing = raw_parsing
+                    program = self.parser.parse_expression(raw_parsing)
+                except Exception as e:
+                    raise ExecutionFailed('Parsing failed for question: {}.'.format(question)) from e
+
+                try:
+                    if not self.training:
+                        with self.executor.record_execution_trace() as trace_getter:
+                            execution = self.executor.execute(program)
+                            trace = trace_getter.get()
+                    else:
+                        execution = self.executor.execute(program)
+                except (KeyError, AttributeError) as e:
+                    logger.exception('Execution failed for question: {}\nProgram: {}.'.format(question, program))
+                    raise ExecutionFailed('Execution failed for question: {}\nProgram: {}.'.format(question, program)) from e
+            except ExecutionFailed as e:
+                print(e)
+
+        outputs.setdefault('results', list()).append((parsing, program, execution))
+        outputs.setdefault('executions', list()).append(execution)
+        outputs.setdefault('parsings', list()).append(parsing)
+        outputs.setdefault('execution_traces', list()).append(trace)
+
+
+class ExecutionFailed(Exception):
+    pass
+
 
