@@ -16,15 +16,23 @@ In Conference on Neural Information Processing Systems (NeurIPS) 2023
 
 ## Setup
 Run the following commands to install necessary dependencies.
+
+Install [Jacinle](https://github.com/vacancy/Jacinle).
+```bash
+  git clone https://github.com/vacancy/Jacinle --recursive
+  export PATH=<path_to_jacinle>/bin:$PATH
 ```
-pip install git+https://github.com/concepts-ai/concepts
+
+Install Concepts
 ```
+  pip install git+https://github.com/concepts-ai/concepts
+```
+
+## Demo
+Please check out this [demo notebook](starter-simple-shapes.ipynb), to see how to apply LEFT on a new dataset in ~100 lines of code! 
 
 ## Train & evaluation
 Please see the individual READMEs. 
-
-## Demo
-Coming soon!
 
 ## Warning
 LEFT leverages a pre-trained large language model as its language interpreter, and hence, even though our prompts are general examples of first-order logic, we do not have direct control over the LLM's generation. The LLM may output harmful biases.
