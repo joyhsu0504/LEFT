@@ -318,13 +318,6 @@ def train_epoch(epoch, trainer, train_dataloader, meters, output_vocab):
             
             meters.update({'train/percent_scored': len(scored_accs) / len(executions)})
             
-            percent_parsed = sum(output_dict['legality'][0]) / len(output_dict['legality'][0]) if len(output_dict['legality'][0]) != 0 else None
-            percent_parsed_legal = sum(output_dict['legality'][1]) / len(output_dict['legality'][1]) if len(output_dict['legality'][1]) != 0 else None
-            percent_execution_legal = sum(output_dict['legality'][2]) / len(output_dict['legality'][2]) if len(output_dict['legality'][2]) != 0 else None
-            if percent_parsed: meters.update({'train/percent_parsed': percent_parsed})
-            if percent_parsed_legal: meters.update({'train/percent_parsed_legal': percent_parsed_legal})
-            if percent_execution_legal: meters.update({'train/percent_execution_legal': percent_execution_legal})
-            
             if args.use_tb:
                 meters.flush()
 
@@ -400,13 +393,6 @@ def validate_epoch(epoch, trainer, val_dataloader, meters, output_vocab):
                 meters.update({'validation/acc_scored': scored_avg_acc}, n=len(scored_accs))
             
             meters.update({'validation/percent_scored': len(scored_accs) / len(executions)})
-            
-            percent_parsed = sum(output_dict['legality'][0]) / len(output_dict['legality'][0]) if len(output_dict['legality'][0]) != 0 else None
-            percent_parsed_legal = sum(output_dict['legality'][1]) / len(output_dict['legality'][1]) if len(output_dict['legality'][1]) != 0 else None
-            percent_execution_legal = sum(output_dict['legality'][2]) / len(output_dict['legality'][2]) if len(output_dict['legality'][2]) != 0 else None
-            if percent_parsed: meters.update({'validation/percent_parsed': percent_parsed})
-            if percent_parsed_legal: meters.update({'validation/percent_parsed_legal': percent_parsed_legal})
-            if percent_execution_legal: meters.update({'validation/percent_execution_legal': percent_execution_legal})
             
             if not args.debug and this_count < max_log_count:
                 idx = 0

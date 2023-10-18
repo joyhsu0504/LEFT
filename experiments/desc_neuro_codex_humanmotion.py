@@ -63,27 +63,12 @@ class Model(LeftModel):
         v = list(range(len(self.attribute_concepts)))
         self.attribute_class_to_idx = dict(zip(k, v))
 
-    @functools.lru_cache(maxsize=None, typed=False)
-    def get_legal(self, parsing_list):  # Potentially move to model.py
-        legal_list = []
-        for raw_parsing in list(parsing_list):
-            try:
-                legal_parsing = self.parser.parse_expression(raw_parsing)
-                legal_execution = self.executor.execute(legal_parsing).tensor.detach()
-                legal_list.append((legal_parsing, legal_execution))
-            except:
-                continue
-        return legal_list
-
     def forward(self, feed_dict):
         feed_dict = GView(feed_dict)
         monitors, outputs = {}, {}
 
         f_sng = self.forward_sng(feed_dict)
-        results = list()
-        executions = list()
-        parsings = list()
-        scored, parsed, parsed_legal, execution_legal = list(), list(), list(), list()
+        results, executions, parsings, scored = list(), list(), list(), list()
         
         for i in range(len(feed_dict.program_tree)):
             with self.executor.with_grounding(self.grounding_cls(f_sng[i], self, self.training, self.attribute_class_to_idx, None)):
@@ -99,16 +84,10 @@ class Model(LeftModel):
                 parsings.append(parsing)
                 scored.append(1)
 
-                # TODO: remove or update
-                parsed.append(0)
-                parsed_legal.append(0)
-                execution_legal.append(0)
-
         outputs['parsing'] = parsings
         outputs['results'] = results
         outputs['executions'] = executions
         outputs['scored'] = scored
-        outputs['legality'] = (parsed, parsed_legal, execution_legal)
         
         update_from_loss_module(monitors, outputs, self.qa_loss(outputs['executions'], feed_dict.answer, feed_dict.question_type))
         

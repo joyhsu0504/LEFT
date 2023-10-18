@@ -38,7 +38,7 @@ def update_from_loss_module(monitors, output_dict, loss_update):
 
 
 class Model(LeftModel):
-    def __init__(self, parsed_train_path, parsed_test_path, gt_idx_to_class_path):
+    def __init__(self, parsed_train_path, parsed_test_path, idx_to_class_path):
         self.parsed_train_path = parsed_train_path
         self.parsed_test_path = parsed_test_path
 
@@ -62,29 +62,14 @@ class Model(LeftModel):
         v = list(range(len(self.attribute_concepts)))
         self.attribute_class_to_idx = dict(zip(k, v))
 
-        self.gt_idx_to_class = io.load_pkl(gt_idx_to_class_path)
-
-    @functools.lru_cache(maxsize=None, typed=False)
-    def get_legal(self, parsing_list):  # Potentially move to model.py
-        legal_list = []
-        for raw_parsing in list(parsing_list):
-            try:
-                legal_parsing = self.parser.parse_expression(raw_parsing)
-                legal_execution = self.executor.execute(legal_parsing).tensor.detach()
-                legal_list.append((legal_parsing, legal_execution))
-            except:
-                continue
-        return legal_list
+        self.idx_to_class = io.load_pkl(idx_to_class_path)
 
     def forward(self, feed_dict):
         feed_dict = GView(feed_dict)
         monitors, outputs = {}, {}
 
         f_sng = self.forward_sng(feed_dict)
-        results = list()
-        executions = list()
-        parsings = list()
-        scored, parsed, parsed_legal, execution_legal = list(), list(), list(), list()
+        results, executions, parsings, scored = list(), list(), list(), list()
 
         for i in range(len(feed_dict.input_str)):
             context_size = feed_dict.input_objects_length[i]
@@ -111,18 +96,13 @@ class Model(LeftModel):
                 parsings.append(parsing)
                 scored.append(1)
 
-                # TODO: remove or update
-                parsed.append(0)
-                parsed_legal.append(0)
-                execution_legal.append(0)
-
         outputs['parsing'] = parsings
         outputs['results'] = results
         outputs['executions'] = executions
         outputs['scored'] = scored
-        outputs['legality'] = (parsed, parsed_legal, execution_legal)
+        
         update_from_loss_module(monitors, outputs, self.refexp_loss(executions, feed_dict.output_target, feed_dict.input_objects_length))
-        update_from_loss_module(monitors, outputs, self.attrcls_loss(feed_dict, f_sng, self.attribute_class_to_idx, self.gt_idx_to_class))
+        update_from_loss_module(monitors, outputs, self.attrcls_loss(feed_dict, f_sng, self.attribute_class_to_idx, self.idx_to_class))
 
         if self.training:
             if configs.train.attrcls_add_supervision:
@@ -153,5 +133,5 @@ class Model(LeftModel):
         return f_sng
 
 
-def make_model(parsed_train_path, parsed_test_path, gt_idx_to_class_path):
-    return Model(parsed_train_path, parsed_test_path, gt_idx_to_class_path)
+def make_model(parsed_train_path, parsed_test_path, idx_to_class_path):
+    return Model(parsed_train_path, parsed_test_path, idx_to_class_path)

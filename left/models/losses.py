@@ -79,7 +79,7 @@ class AttrClsLoss(MultitaskLossBase):
         super().__init__()
         self.add_supervision = add_supervision
 
-    def forward(self, feed_dict, f_sng, attribute_class_to_idx, gt_idx_to_class):
+    def forward(self, feed_dict, f_sng, attribute_class_to_idx, idx_to_class):
         outputs, monitors = dict(), dict()
 
         objects = [f['attribute'] for f in f_sng]
@@ -101,7 +101,7 @@ class AttrClsLoss(MultitaskLossBase):
             gt_concepts_to_pred_concepts = collections.defaultdict(list)
             for i in range(object_labels.size(1)):
                 gt_label = int(object_labels[b, i].cpu().numpy())
-                gt_class = gt_idx_to_class[gt_label].replace(' ', '_') + '_Object'
+                gt_class = idx_to_class[gt_label].replace(' ', '_') + '_Object'
 
                 if gt_class in attribute_concepts:
                     gt_class_index = attribute_concepts.index(gt_class)
