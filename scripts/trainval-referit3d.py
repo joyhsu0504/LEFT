@@ -55,8 +55,8 @@ parser.add_argument('--evaluate', action='store_true', help='evaluate the perfor
 # data related
 parser.add_argument('--scannet-file', required=True, metavar='DIR', help='data directory')
 parser.add_argument('--scannet-split-pre-fix', required=True, metavar='DIR', help='data directory')
-parser.add_argument('--referit3D-file', required=True, metavar='DIR', help='data directory')
-parser.add_argument('--gt-idx-to-class', required=True, metavar='FILE', help='path to idx to class file')
+parser.add_argument('--referit3d-file', required=True, metavar='DIR', help='data directory')
+parser.add_argument('--idx-to-class', required=True, metavar='FILE', help='path to idx to class file')
 parser.add_argument('--parsed-train-path', required=True, metavar='FILE', help='path to parsed train')
 parser.add_argument('--parsed-test-path', required=True, metavar='FILE', help='path to parsed test')
 
@@ -136,7 +136,7 @@ def main():
         args.use_tb = False
     
     logger.critical('Building the model.')
-    model = desc.make_model(args.parsed_train_path, args.parsed_test_path, args.gt_idx_to_class)
+    model = desc.make_model(args.parsed_train_path, args.parsed_test_path, args.idx_to_class)
 
     if args.use_gpu:
         model.cuda()
@@ -211,9 +211,9 @@ def main():
     from left.data.referit3d.arguments import parse_arguments
     from left.data.referit3d.listening_dataset import make_data_loaders
     from left.data.referit3d.referit3d_reader import load_scan_related_data, load_referential_data, trim_scans_per_referit3d_data, compute_auxiliary_data
-    referit3d_args = parse_arguments(['-scannet-file', args.scannet_file, '-referit3D-file', args.referit3D_file, '--max-distractors', '9', '--max-test-objects', '88', '--batch-size', '16', '--n-workers', '2'])
+    referit3d_args = parse_arguments(['-scannet-file', args.scannet_file, '-referit3D-file', args.referit3d_file, '--max-distractors', '9', '--max-test-objects', '88', '--batch-size', '16', '--n-workers', '2'])
     all_scans_in_dict, scans_split, class_to_idx = load_scan_related_data(args.scannet_split_pre_fix, referit3d_args.scannet_file)
-    referit_data = load_referential_data(referit3d_args, referit3d_args.referit3D_file, scans_split)
+    referit_data = load_referential_data(referit3d_args, referit3d_args.referit3d_file, scans_split)
     all_scans_in_dict = trim_scans_per_referit3d_data(referit_data, all_scans_in_dict)
     mean_rgb, vocab = compute_auxiliary_data(referit_data, all_scans_in_dict, referit3d_args)
     data_loaders = make_data_loaders(referit3d_args, referit_data, vocab, class_to_idx, all_scans_in_dict, mean_rgb)
