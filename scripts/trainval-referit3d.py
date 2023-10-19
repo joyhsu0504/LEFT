@@ -213,7 +213,7 @@ def main():
     from left.data.referit3d.referit3d_reader import load_scan_related_data, load_referential_data, trim_scans_per_referit3d_data, compute_auxiliary_data
     referit3d_args = parse_arguments(['-scannet-file', args.scannet_file, '-referit3D-file', args.referit3d_file, '--max-distractors', '9', '--max-test-objects', '88', '--batch-size', '16', '--n-workers', '2'])
     all_scans_in_dict, scans_split, class_to_idx = load_scan_related_data(args.scannet_split_pre_fix, referit3d_args.scannet_file)
-    referit_data = load_referential_data(referit3d_args, referit3d_args.referit3d_file, scans_split)
+    referit_data = load_referential_data(referit3d_args, referit3d_args.referit3D_file, scans_split)
     all_scans_in_dict = trim_scans_per_referit3d_data(referit_data, all_scans_in_dict)
     mean_rgb, vocab = compute_auxiliary_data(referit_data, all_scans_in_dict, referit3d_args)
     data_loaders = make_data_loaders(referit3d_args, referit_data, vocab, class_to_idx, all_scans_in_dict, mean_rgb)
