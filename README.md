@@ -15,7 +15,12 @@ In Conference on Neural Information Processing Systems (NeurIPS) 2023
 <br />
 
 ## Setup
-Run the following commands to install necessary dependencies.
+Run the following commands to setup LEFT.
+
+Make a new conda environment.
+```bash
+  conda create -n left python=3.10
+```
 
 Install [Jacinle](https://github.com/vacancy/Jacinle).
 ```bash
