@@ -185,7 +185,7 @@ class ListeningDataset(Dataset):
         ref = self.references.loc[index]
         scan = self.scans[ref['scan_id']]
         target = scan.three_d_objects[ref['target_id']]
-        tokens = np.array(self.vocab.encode(ref['tokens'], self.max_seq_len), dtype=np.long)
+        tokens = np.array(self.vocab.encode(ref['tokens'], self.max_seq_len), dtype=np.int_)
         is_nr3d = ref['dataset'] == 'nr3d'
 
         # Anchor
@@ -249,7 +249,7 @@ class ListeningDataset(Dataset):
         res['objects'] = pad_samples(samples, self.max_context_size)
 
         # Get a mask indicating which objects have the same instance-class as the target.
-        target_class_mask = np.zeros(self.max_context_size, dtype=np.bool)
+        target_class_mask = np.zeros(self.max_context_size, dtype=np.bool_)
         target_class_mask[:len(context)] = [target.instance_label == o.instance_label for o in context]
 
         res['target_class'] = self.class_to_idx[target.instance_label]
