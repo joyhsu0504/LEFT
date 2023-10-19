@@ -24,7 +24,7 @@ Install [Jacinle](https://github.com/vacancy/Jacinle).
 ```
 
 Install [Concepts](https://github.com/concepts-ai/concepts).
-```
+```bash
   git clone https://github.com/concepts-ai/Concepts.git
   cd Concepts
   pip install -e .
