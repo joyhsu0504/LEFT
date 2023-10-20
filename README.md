@@ -15,7 +15,12 @@ In Conference on Neural Information Processing Systems (NeurIPS) 2023
 <br />
 
 ## Setup
-Run the following commands to install necessary dependencies.
+Run the following commands to setup LEFT.
+
+Make a new conda environment.
+```bash
+  conda create -n left python=3.10
+```
 
 Install [Jacinle](https://github.com/vacancy/Jacinle).
 ```bash
@@ -29,6 +34,14 @@ Install [Concepts](https://github.com/concepts-ai/concepts).
   cd Concepts
   pip install -e .
 ```
+
+Install the below libraries.
+```bash
+  conda install tensorflow
+  pip install charset
+```
+
+Note: you may need to install a PyTorch version that has been compiled with your version of the CUDA driver. For example, `conda install pytorch==1.11.0 torchvision==0.12.0 torchaudio==0.11.0 cudatoolkit=11.3 -c pytorch`
 
 ## Demo
 Please check out this [demo notebook](starter-simple-shapes.ipynb), to see how to apply LEFT on a new dataset in ~100 lines of code! 
