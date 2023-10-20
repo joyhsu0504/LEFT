@@ -62,7 +62,7 @@ Install the below libraries to train models.
   pip install charset
 ```
 
-Note: Before running train & eval commands, run `export PATH=<PATH_TO_JACINLE>/bin:$PATH`.
+Note: Before running train & eval commands, set `export PATH=<PATH_TO_JACINLE>/bin:$PATH`.
 
 ## Warning
 LEFT leverages a pre-trained large language model as its language interpreter, and hence, even though our prompts are general examples of first-order logic, we do not have direct control over the LLM's generation. The LLM may output harmful biases.
