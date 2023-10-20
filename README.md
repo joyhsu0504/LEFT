@@ -47,7 +47,7 @@ Note: you may need to install a PyTorch version that has been compiled with your
 ## Demo
 Please check out this [demo notebook](starter-simple-shapes.ipynb), to see how to apply LEFT on a new dataset in ~100 lines of code! 
 
-Install the below libraries to run the demo.
+Install the following libraries to run the demo.
 ```bash
   conda install -c conda-forge notebook
   pip install opencv-python
@@ -62,7 +62,7 @@ You may need to add the below import in the demo notebook.
 ## Train & evaluation
 Please see the individual READMEs to train and evaluate models. 
 
-Install the below libraries to train models.
+Install the following library to train models.
 ```bash
   conda install tensorflow
 ```
