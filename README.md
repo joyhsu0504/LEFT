@@ -59,7 +59,6 @@ Please see the individual READMEs to train and evaluate models.
 Install the below libraries to train models.
 ```bash
   conda install tensorflow
-  pip install charset
 ```
 
 Note: Before running train & eval commands, set `export PATH=<PATH_TO_JACINLE>/bin:$PATH`.
