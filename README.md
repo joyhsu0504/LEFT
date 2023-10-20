@@ -43,7 +43,7 @@ Please check out this [demo notebook](starter-simple-shapes.ipynb), to see how t
 
 Install the below libraries to run the demo.
 ```bash
-  pip install notebook
+  conda install -c conda-forge notebook
   pip install opencv-python
 ```
 
