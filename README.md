@@ -36,8 +36,8 @@ Install [Concepts](https://github.com/concepts-ai/concepts).
   pip install -e .
 ```
 
-Install the following libraries
-``bash
+Install the following libraries.
+```bash
   pip install PyYAML
   pip install peewee
 ```
