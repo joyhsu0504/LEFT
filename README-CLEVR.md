@@ -86,7 +86,7 @@ Here <TRAINED_CHECKPOINT_FILE> should be replaced by the trained checkpoint file
 To generate those data-parses files, run the commands inside the prompts/ directory. You need to install openai `pip install openai` before running the command.
 
 ```bash
-jac-run run-gpt35-prompt.py --dataset clevr --questions ../data/clevr-new/questions.json --output prompt-clevr-humans.pkl --prompt prompts-clevr.txt
+jac-run run-gpt35-prompt.py --dataset clevr --questions <PATH_TO_QUESTIONS> --output prompt-clevr-humans.pkl --prompt prompts-clevr.txt
 ```
 
 ## CLEVR-Refs (Evaluation Only)
