@@ -20,6 +20,7 @@ Run the following commands to setup LEFT.
 Make a new conda environment.
 ```bash
   conda create -n left python=3.10
+  conda activate left
 ```
 
 Install [Jacinle](https://github.com/vacancy/Jacinle).
