@@ -30,7 +30,6 @@ In short, a pre-trained Mask-RCNN is used to detect all objects. We provide the 
 
 The `vocab.json` could be downloaded at [this URL](http://nscl.csail.mit.edu/data/code-data/clevr/vocab.json).
 
-
 **Step 2**: Generate groundtruth programs for CLEVR/train and CLEVR/val.
 
 ```bash
@@ -39,6 +38,12 @@ jac-run scripts/gen-clevr-gt-program.py --input data/clevr/val/questions.json --
 ```
 
 **Step 3**: Training (10% Data Efficiency).
+
+You will need Cython to compile some libraries. So install Cython before you run the training commands.
+
+```bash
+pip install Cython
+```
 
 ```bash
 jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
