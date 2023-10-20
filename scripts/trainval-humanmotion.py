@@ -303,7 +303,7 @@ def train_epoch(epoch, trainer, train_dataloader, meters, output_vocab):
             executions = output_dict['executions']
             predictions = []
             for i in range(len(executions)):
-                predictions.append(torch.argmax(executions[i].tensor))
+                predictions.append(torch.argmax(executions[i]))
             predictions = torch.stack(predictions)
             
             scored_accs = []
