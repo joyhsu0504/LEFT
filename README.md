@@ -25,7 +25,7 @@ Make a new conda environment.
 Install [Jacinle](https://github.com/vacancy/Jacinle).
 ```bash
   git clone https://github.com/vacancy/Jacinle --recursive
-  export PATH=<path_to_jacinle>/bin:$PATH
+  export PATH=<PATH_TO_JACINLE>/bin:$PATH
 ```
 
 Install [Concepts](https://github.com/concepts-ai/concepts).
@@ -35,11 +35,10 @@ Install [Concepts](https://github.com/concepts-ai/concepts).
   pip install -e .
 ```
 
-Install the below libraries to train models.
-```bash
-  conda install tensorflow
-  pip install charset
-```
+Note: you may need to install a PyTorch version that has been compiled with your version of the CUDA driver. For example, `conda install pytorch==1.11.0 torchvision==0.12.0 torchaudio==0.11.0 cudatoolkit=11.3 -c pytorch`
+
+## Demo
+Please check out this [demo notebook](starter-simple-shapes.ipynb), to see how to apply LEFT on a new dataset in ~100 lines of code! 
 
 Install the below libraries to run the demo.
 ```bash
@@ -53,18 +52,16 @@ You may need to add the below import in the demo notebook.
   sys.path.append("<PATH_TO_JACINLE>")
 ```
 
-And the path variable before running train & eval commands.
+## Train & evaluation
+Please see the individual READMEs to train and evaluate models. 
+
+Install the below libraries to train models.
 ```bash
-  export PATH=<PATH_TO_JACINLE>/bin:$PATH
+  conda install tensorflow
+  pip install charset
 ```
 
-Note: you may need to install a PyTorch version that has been compiled with your version of the CUDA driver. For example, `conda install pytorch==1.11.0 torchvision==0.12.0 torchaudio==0.11.0 cudatoolkit=11.3 -c pytorch`
-
-## Demo
-Please check out this [demo notebook](starter-simple-shapes.ipynb), to see how to apply LEFT on a new dataset in ~100 lines of code! 
-
-## Train & evaluation
-Please see the individual READMEs. 
+Note: Before running train & eval commands, run `export PATH=<PATH_TO_JACINLE>/bin:$PATH`.
 
 ## Warning
 LEFT leverages a pre-trained large language model as its language interpreter, and hence, even though our prompts are general examples of first-order logic, we do not have direct control over the LLM's generation. The LLM may output harmful biases.
