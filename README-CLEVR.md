@@ -76,7 +76,7 @@ jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_l
 
 ```bash
 jac-crun 0 scripts/trainval-clevr.py --desc experiments/desc_neuro_codex_clevr_learned_belongings.py \
-  --data-dir data/clevr-humans/train --data-parses clevr_humans_gpt35_trials3.pkl \
+  --data-dir data/clevr-humans/train --data-parses clevr_humans_gpt35.pkl \
   --curriculum none --expr human --data-tvsplit 0.95 --validation-interval 5 --config model.learned_belong_fusion=plus \
   --load <TRAINED_CHECKPOINT_FILE>
 ```
