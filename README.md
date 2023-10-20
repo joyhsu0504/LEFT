@@ -35,11 +35,16 @@ Install [Concepts](https://github.com/concepts-ai/concepts).
   pip install -e .
 ```
 
-Install the below libraries to train models & run the demo.
+Install the below libraries to train models.
 ```bash
   conda install tensorflow
   pip install charset
+```
+
+Install the below libraries to run the demo.
+```bash
   pip install notebook
+  pip install opencv-python
 ```
 
 Note: you may need to install a PyTorch version that has been compiled with your version of the CUDA driver. For example, `conda install pytorch==1.11.0 torchvision==0.12.0 torchaudio==0.11.0 cudatoolkit=11.3 -c pytorch`
