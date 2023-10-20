@@ -50,12 +50,12 @@ Install the below libraries to run the demo.
 You may need to add the below import in the demo notebook.
 ```bash
   import sys
-  sys.path.append("<path_to_Jacinle>")
+  sys.path.append("<PATH_TO_JACINLE>")
 ```
 
 And the path variable before running train & eval commands.
 ```bash
-  export PATH=<path_to_Jacinle>/bin:$PATH
+  export PATH=<PATH_TO_JACINLE>/bin:$PATH
 ```
 
 Note: you may need to install a PyTorch version that has been compiled with your version of the CUDA driver. For example, `conda install pytorch==1.11.0 torchvision==0.12.0 torchaudio==0.11.0 cudatoolkit=11.3 -c pytorch`
