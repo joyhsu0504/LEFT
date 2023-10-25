@@ -14,7 +14,7 @@
 In Conference on Neural Information Processing Systems (NeurIPS) 2023
 <br />
 
-[[project page](https://web.stanford.edu/~joycj/projects/left_neurips_2023.html)]
+[[paper](https://arxiv.org/abs/2310.16035)]  [[project page](https://web.stanford.edu/~joycj/projects/left_neurips_2023.html)]
 
 ## Setup
 Run the following commands to setup LEFT.
