@@ -14,7 +14,10 @@
 In Conference on Neural Information Processing Systems (NeurIPS) 2023
 <br />
 
-[[paper](https://arxiv.org/abs/2310.16035)]  [[project page](https://web.stanford.edu/~joycj/projects/left_neurips_2023.html)]
+[[paper](https://arxiv.org/abs/2310.16035)]  [[project page](https://web.stanford.edu/~joycj/projects/left_neurips_2023.html)] [[colab](https://colab.research.google.com/drive/1PHHvjImk7IK2m48j1TkCywxAYr7MatUT?usp=sharing)]
+
+## Colab
+Run this [colab](https://colab.research.google.com/drive/1PHHvjImk7IK2m48j1TkCywxAYr7MatUT?usp=sharing) to train and eval LEFT on a new dataset in ~100 lines of code!
 
 ## Setup
 Run the following commands to setup LEFT.
@@ -47,7 +50,7 @@ Install the following libraries.
 Note: you may need to install a PyTorch version that has been compiled with your version of the CUDA driver. For example, `conda install pytorch==1.11.0 torchvision==0.12.0 torchaudio==0.11.0 cudatoolkit=11.3 -c pytorch`.
 
 ## Demo
-Please check out this [demo notebook](starter-simple-shapes.ipynb), to see how to apply LEFT on a new dataset in ~100 lines of code! 
+Check out this [demo notebook](starter-simple-shapes.ipynb) to apply LEFT on a new dataset in ~100 lines of code! See the same notebook in [colab](https://colab.research.google.com/drive/1PHHvjImk7IK2m48j1TkCywxAYr7MatUT?usp=sharing) form as well. 
 
 Install the following libraries to run the demo.
 ```bash
