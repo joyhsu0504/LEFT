@@ -17,7 +17,7 @@ In Conference on Neural Information Processing Systems (NeurIPS) 2023
 [[paper](https://arxiv.org/abs/2310.16035)]  [[project page](https://web.stanford.edu/~joycj/projects/left_neurips_2023.html)] [[colab](https://colab.research.google.com/drive/1PHHvjImk7IK2m48j1TkCywxAYr7MatUT?usp=sharing)]
 
 ## Colab
-Run this [colab](https://colab.research.google.com/drive/1PHHvjImk7IK2m48j1TkCywxAYr7MatUT?usp=sharing) to train and eval LEFT on a new dataset in ~100 lines of code!
+Run this [colab](https://colab.research.google.com/drive/1PHHvjImk7IK2m48j1TkCywxAYr7MatUT?usp=sharing) to train and evaluate LEFT on a new dataset in ~100 lines of code! Additionally, try out this [colab](https://colab.research.google.com/drive/1b0Bzlyr05GS01phCDfnggVB54Zr-y9Sy?usp=sharing) to evaluate LEFT on one of our trained domains.
 
 ## Setup
 Run the following commands to setup LEFT.
