@@ -26,7 +26,7 @@ You can download all images, and put them under the `images/` folders from the [
 The `questions.json` and `scenes-raw.json` could also been found on the website.
 
 Next, you need to add object detection results for scenes. Here, we use the tools provided by [ns-vqa](https://github.com/kexinyi/ns-vqa).
-In short, a pre-trained Mask-RCNN is used to detect all objects. We provide the `scenes.json` files with detected object bounding boxes at this download [link](https://downloads.cs.stanford.edu/viscam/LEFT/CLEVR.zip). The `vocab.json` file can be be downloaded at this [link](https://downloads.cs.stanford.edu/viscam/LEFT/CLEVR.zip) as well.
+In short, a pre-trained Mask-RCNN is used to detect all objects. We provide the `scenes.json` files with detected object bounding boxes at this download [link](https://downloads.cs.stanford.edu/viscam/LEFT/CLEVR.zip). The `vocab.json` file can be downloaded at this [link](https://downloads.cs.stanford.edu/viscam/LEFT/CLEVR.zip) as well.
 
 **Step 2**: Generate groundtruth programs for CLEVR/train and CLEVR/val.
 
